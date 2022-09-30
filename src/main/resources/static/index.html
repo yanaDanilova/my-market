@@ -43,7 +43,7 @@
       <th scope="col">Title</th>
       <th scope="col">Price</th>
       <th scope="col">Actions</th>
-    </tr>
+      <th scope="col">Actions</th>
     </thead>
     <tbody>
     <tr ng-repeat="p in products">
@@ -51,7 +51,10 @@
       <td>{{p.title}}</td>
       <td>{{p.price}}</td>
       <td>
-        <button type="button" class="btn btn-danger" ng-click="deleteProduct()">Delete</button>
+        <button type="button" class="btn btn-danger" ng-click="deleteProduct(p.id)">Delete</button>
+      </td>
+      <td>
+        <button type="button" class="btn btn-danger" ng-click="addProductToCart(p.id)">Add </button>
       </td>
     </tr>
     </tbody>
@@ -74,8 +77,32 @@
     <button class="btn btn-outline-warning btn-sm" style="width: 100%;" type="submit">Submit</button>
   </form>
 
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Title</th>
+      <th scope="col">Price</th>
+      <th scope="col">Actions</th>
+      <th scope="col">Actions</th>
+    </thead>
+    <tbody>
+    <tr ng-repeat="c in cartList">
+      <td>{{c.id}}</td>
+      <td>{{c.title}}</td>
+      <td>{{c.price}}</td>
+      <td>
+        <button type="button" class="btn btn-danger" ng-click="deleteProductFromCart(c.id)">Delete</button>
+      </td>
 
-  </div>
+    </tr>
+    </tbody>
+  </table>
+  <button type="button" class="btn btn-danger" ng-click="clearCart()">clear cart</button>
+
+
+
+</div>
 
 
 </body>
