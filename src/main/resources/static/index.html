@@ -15,7 +15,7 @@
 
 <div class="container" ng-controller="indexController">
   <h1>My Market</h1>
-
+<h5>Filters</h5>
   <form novalidate ng-submit="loadProducts()">
     <div class="form-floating input-group-sm">
       <input type="text" class="form-control" id="filterTitle" placeholder="" ng-model="filter.title_part">
@@ -35,13 +35,14 @@
     <button class="btn btn-outline-warning btn-sm" style="width: 100%;" type="submit">Submit</button>
   </form>
 
-
+<h5>Products</h5>
   <table class="table">
     <thead>
     <tr>
       <th scope="col">ID</th>
       <th scope="col">Title</th>
       <th scope="col">Price</th>
+      <th scope="col">Category</th>
       <th scope="col">Actions</th>
       <th scope="col">Actions</th>
     </thead>
@@ -50,6 +51,7 @@
       <td>{{p.id}}</td>
       <td>{{p.title}}</td>
       <td>{{p.price}}</td>
+      <td>{{p.category}}</td>
       <td>
         <button type="button" class="btn btn-danger" ng-click="deleteProduct(p.id)">Delete</button>
       </td>
@@ -62,7 +64,7 @@
 
 
 
-
+<h5>Add New Products to Marker</h5>
   <form novalidate ng-submit="addNewProduct()">
     <div class="form-floating input-group-sm">
       <input type="text" class="form-control" id="Title" placeholder="" ng-model="newProduct.title">
@@ -77,6 +79,7 @@
     <button class="btn btn-outline-warning btn-sm" style="width: 100%;" type="submit">Submit</button>
   </form>
 
+  <h5>Cart</h5>
   <table class="table">
     <thead>
     <tr>

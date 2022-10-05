@@ -1,29 +1,27 @@
 package de.danilova.mymarket.models;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Table(name = "products")
+@Table(name = "categories")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Product {
+public class Category {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long Id;
 
     @Column(name = "title")
     private String title;
 
-    @Column(name = "price")
-    private Integer price;
-
-    @ManyToOne
-    @JoinColumn (name = "category_id")
-    private Category category;
+    @OneToMany(mappedBy = "category")
+    private List<Product> products;
 }
