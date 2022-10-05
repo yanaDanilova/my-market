@@ -11,6 +11,9 @@ INSERT INTO products (title, price) VALUES
 ('Hat', 70),
 ('Scarf',68),
 ('Suit', 350),
-('Dress', 150);
+('Dress', 150),
+('Jeans', 78),
+('Sweater',100)
+;
 
 COMMIT;
