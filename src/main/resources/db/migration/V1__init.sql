@@ -1,19 +1,22 @@
-BEGIN;
 
-DROP TABLE IF EXISTS products CASCADE;
-CREATE TABLE products (id bigserial PRIMARY KEY, title VARCHAR(255), price int);
-INSERT INTO products (title, price) VALUES
-('T-Shirt', 25),
-('Jeans', 70),
-('Sweater',150),
-('Skirt',50),
-('Coat',150),
-('Hat', 70),
-('Scarf',68),
-('Suit', 350),
-('Dress', 150),
-('Jeans', 78),
-('Sweater',100)
+CREATE TABLE categories (id bigserial PRIMARY KEY, title VARCHAR(255));
+INSERT INTO categories (title) VALUES ('Clothes');
+
+
+
+
+CREATE TABLE products (id bigserial PRIMARY KEY, title VARCHAR(255), price int, category_id bigint references categories(id));
+INSERT INTO products (title, price, category_id) VALUES
+('T-Shirt', 25, 1),
+('Jeans', 70,1),
+('Sweater',150,1),
+('Skirt',50,1),
+('Coat',150,1),
+('Hat', 70,1),
+('Scarf',68,1),
+('Suit', 350,1),
+('Dress', 150,1),
+('Jeans', 78,1),
+('Sweater',100,1)
 ;
 
-COMMIT;
