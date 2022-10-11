@@ -1,5 +1,7 @@
 package de.danilova.mymarket.services;
 
+import de.danilova.mymarket.Dtos.ProductDto;
+import de.danilova.mymarket.error_handling.ResourceNotFoundException;
 import de.danilova.mymarket.models.Product;
 import de.danilova.mymarket.repositories.ProductRepository;
 import de.danilova.mymarket.specifications.ProductSpecification;
@@ -9,6 +11,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.beans.Transient;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,8 +21,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ProductService {
     private final ProductRepository productRepository;
+    private final CategoryService categoryService;
 
-    public Page<Product> getProducts(Long minPrice, Long maxPrice, String titlePart, Integer pageIndex){
+    public Page<Product> getProducts(BigDecimal minPrice, BigDecimal maxPrice, String titlePart, Integer pageIndex){
         Specification<Product> specification = Specification.where(null);
         if(minPrice != null){
           specification = specification.and(ProductSpecification.priceGreaterOrEqualsThen(minPrice));
@@ -29,7 +35,7 @@ public class ProductService {
           specification =  specification.and(ProductSpecification.titleLike(titlePart));
         }
 
-        return productRepository.findAll(specification, PageRequest.of(pageIndex-1,20));
+        return productRepository.findAll(specification, PageRequest.of(pageIndex-1,5));
     }
 
     public List<Product> getAllProducts(){
@@ -40,16 +46,28 @@ public class ProductService {
         return productRepository.findById(id);
     }
 
-    public Product addNewProduct(Product product){
-        return productRepository.save(product);
+    @Transactional
+    public ProductDto addNewProduct(ProductDto productDto){
+        Product product = new Product();
+        product.setTitle(productDto.getTitle());
+        product.setPrice(productDto.getPrice());
+        product.setCategory(categoryService.findCategoryByTitle(productDto.getCategoryTitle()).orElseThrow(() -> new ResourceNotFoundException("Category doesn't exists")));
+        productRepository.save(product);
+        return new ProductDto(product);
     }
 
     public void deleteProductById(Long id){
         productRepository.deleteById(id);
     }
 
-    public Product updateProductById(Product product){
-        return productRepository.save(product);
+    @Transactional
+    public ProductDto updateProductById(ProductDto productDto){
+        Product product = productRepository.findById(productDto.getId()).orElseThrow(() -> new ResourceNotFoundException("This Product doesn't exists"));
+        product.setTitle(product.getTitle());
+        product.setPrice(productDto.getPrice());
+        product.setCategory(categoryService.findCategoryByTitle(productDto.getCategoryTitle()).orElseThrow(() -> new ResourceNotFoundException("Category doesn't exists")));
+        productRepository.save(product);
+        return new ProductDto(product);
     }
 
 
